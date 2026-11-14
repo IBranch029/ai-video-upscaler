@@ -74,6 +74,7 @@ def find_ncnn_models_dir() -> Path | None:
     for candidate in candidates:
         if candidate.is_dir() and any(candidate.glob("*.param")):
             return candidate
+    return None
 
 
 class NcnnBackend(UpscalerBackend):
@@ -108,7 +109,7 @@ class NcnnBackend(UpscalerBackend):
         models = find_ncnn_models_dir()
         available = executable is not None and models is not None
 
-        if available:
+        if executable is not None and models is not None:
             detail = f"{executable.name} using {models}"
             device = f"gpu:{self.gpu_id}" if self.gpu_id >= 0 else "vulkan"
         elif executable is None and models is None:

@@ -23,11 +23,13 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import IO
 
 import numpy as np
 
+from .backends.base import UpscalerBackend, lanczos_filter
 from .config import MediaInfo, UpscaleConfig
-from .errors import CancelledError, FFmpegError
+from .errors import CancelledError, FFmpegError, PipelineError
 from .ffmpeg_wrapper import (
     build_decode_command,
     build_encode_command,
@@ -128,7 +130,7 @@ def compute_target(
     return even(width), even(height)
 
 
-def _drain(stream: object, sink: list[str]) -> None:
+def _drain(stream: IO[bytes] | None, sink: list[str]) -> None:
     """Consume a subprocess' stderr stream into ``sink``.
 
     Draining the pipe continuously prevents FFmpeg from blocking when the
@@ -137,7 +139,7 @@ def _drain(stream: object, sink: list[str]) -> None:
     if stream is None:
         return
     try:
-        for chunk in iter(lambda: stream.read(4096), b""):  # type: ignore[union-attr]
+        for chunk in iter(lambda: stream.read(4096), b""):
             sink.append(chunk.decode("utf-8", "replace"))
     except (ValueError, OSError):  # pragma: no cover - the stream was closed
         pass
@@ -146,7 +148,7 @@ def _drain(stream: object, sink: list[str]) -> None:
 class _FrameReader:
     """Reads fixed-size raw frames from a pipe."""
 
-    def __init__(self, stream: object, frame_size: int) -> None:
+    def __init__(self, stream: IO[bytes], frame_size: int) -> None:
         self._stream = stream
         self._frame_size = frame_size
 
@@ -180,7 +182,7 @@ class UpscalePipeline:
         self,
         config: UpscaleConfig,
         media: MediaInfo,
-        backend: object,
+        backend: UpscalerBackend,
         progress_cb: ProgressCallback | None = None,
         cancel_check: Callable[[], bool] | None = None,
     ) -> None:
@@ -359,6 +361,8 @@ class UpscalePipeline:
         for thread in drain_threads:
             thread.start()
 
+        if decoder.stdout is None:  # pragma: no cover - the decoder always has a pipe
+            raise PipelineError("The FFmpeg decoder was started without an output pipe.")
         reader = _FrameReader(decoder.stdout, frame_bytes)
         try:
             self._pump(reader, encoder)
@@ -515,7 +519,10 @@ class UpscalePipeline:
         """Write one upscaled frame to the encoder's stdin."""
         if frame.shape[0] != self.target_height or frame.shape[1] != self.target_width:
             frame = self._fit_frame(frame)
-        encoder.stdin.write(np.ascontiguousarray(frame, dtype=np.uint8).tobytes())
+        stdin = encoder.stdin
+        if stdin is None:  # pragma: no cover - the encoder always has a pipe
+            raise PipelineError("The FFmpeg encoder was started without an input pipe.")
+        stdin.write(np.ascontiguousarray(frame, dtype=np.uint8).tobytes())
 
     def _fit_frame(self, frame: np.ndarray) -> np.ndarray:
         """Resize a frame to the exact target geometry when it does not match."""
@@ -524,7 +531,7 @@ class UpscalePipeline:
         except ImportError:  # pragma: no cover
             return frame
         image = Image.fromarray(np.ascontiguousarray(frame[:, :, ::-1]))
-        resized = image.resize((self.target_width, self.target_height), Image.LANCZOS)
+        resized = image.resize((self.target_width, self.target_height), lanczos_filter())
         return np.ascontiguousarray(np.asarray(resized)[:, :, ::-1])
 
     def _close_pipes(self, decoder: subprocess.Popen, encoder: subprocess.Popen) -> None:

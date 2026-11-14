@@ -42,6 +42,7 @@ def build_backend(
     """
     opts = options or BackendOptions()
     info = get_model(model) if isinstance(model, str) else model
+    backend: UpscalerBackend
 
     if isinstance(name, str):
         try:
@@ -98,6 +99,7 @@ def auto_backend(
         order.insert(0, prefer)
 
     statuses: list[BackendStatus] = []
+    backend: UpscalerBackend
     for candidate in order:
         try:
             backend = build_backend(candidate, info, opts)
@@ -127,6 +129,7 @@ def list_backends(model: ModelInfo | str = "realesr-animevideov3") -> list[Backe
     """Return the status of every backend for the given model."""
     info = get_model(model) if isinstance(model, str) else model
     statuses: list[BackendStatus] = []
+    backend: UpscalerBackend
     for candidate in BackendName:
         try:
             backend = build_backend(candidate, info)

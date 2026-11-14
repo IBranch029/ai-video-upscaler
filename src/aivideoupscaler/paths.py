@@ -46,9 +46,7 @@ def bundle_dirs() -> list[Path]:
 
     candidates: list[Path] = []
     for root in roots:
-        candidates.extend(
-            [root / "bin", root / "_internal" / "bin", root / "_internal"]
-        )
+        candidates.extend([root / "bin", root / "_internal" / "bin", root / "_internal"])
     return [candidate for candidate in candidates if candidate.is_dir()]
 
 

@@ -8,6 +8,7 @@ frames can be processed without exhausting VRAM.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -91,8 +92,8 @@ class TorchBackend(UpscalerBackend):
         super().__init__(model, tile=tile, device=device)
         self.weights = weights
         self.half = half
-        self._net = None
-        self._torch = None
+        self._net: Any = None
+        self._torch: Any = None
         self._resolved_device = ""
 
     # ------------------------------------------------------------------

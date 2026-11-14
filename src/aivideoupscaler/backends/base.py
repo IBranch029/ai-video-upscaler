@@ -16,6 +16,21 @@ import numpy as np
 from ..models.registry import ModelInfo
 
 
+def lanczos_filter() -> int:
+    """Return the Lanczos resampling filter constant of the installed Pillow.
+
+    Pillow 10 moved the resampling filters into :class:`PIL.Image.Resampling`
+    and kept the old aliases for a while; Pillow 12 only exposes the new
+    namespace.
+    """
+    from PIL import Image
+
+    resampling = getattr(Image, "Resampling", None)
+    if resampling is not None:
+        return int(resampling.LANCZOS)
+    return int(Image.LANCZOS)  # type: ignore[attr-defined]  # pragma: no cover
+
+
 @dataclass
 class BackendStatus:
     """Runtime information about a backend instance."""

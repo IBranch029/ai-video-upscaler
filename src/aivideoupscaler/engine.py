@@ -10,9 +10,11 @@ from __future__ import annotations
 import os
 from collections.abc import Callable
 from pathlib import Path
+from typing import TypedDict
 
-from .backends.base import BackendStatus
+from .backends.base import BackendStatus, UpscalerBackend
 from .backends.factory import BackendOptions, auto_backend, build_backend
+from .backends.ncnn import NcnnBackend
 from .config import UpscaleConfig
 from .errors import ConfigurationError, ModelError
 from .ffmpeg_wrapper import probe
@@ -29,7 +31,7 @@ def default_output_path(input_path: Path, suffix: str = "_4k") -> Path:
     return source.with_name(f"{source.stem}{suffix}{source.suffix}")
 
 
-def resolve_backend(config: UpscaleConfig) -> tuple[object, list[BackendStatus]]:
+def resolve_backend(config: UpscaleConfig) -> tuple[UpscalerBackend, list[BackendStatus]]:
     """Select the backend to use for ``config``.
 
     The result contains the backend instance and the status of every backend
@@ -50,12 +52,12 @@ def resolve_backend(config: UpscaleConfig) -> tuple[object, list[BackendStatus]]
     return auto_backend(model, options)
 
 
-def ensure_model_available(config: UpscaleConfig, backend: object) -> None:
+def ensure_model_available(config: UpscaleConfig, backend: UpscalerBackend) -> None:
     """Verify that the weights the backend needs are present locally."""
-    status = backend.status()  # type: ignore[attr-defined]
+    status = backend.status()
     if not status.requires_model:
         return
-    if backend.__class__.__name__ == "NcnnBackend":
+    if isinstance(backend, NcnnBackend):
         return
     if not is_model_present(config.model):
         raise ModelError(
@@ -108,7 +110,21 @@ def run_upscale(
             close()
 
 
-def describe_environment(model: str = "realesr-animevideov3") -> dict[str, object]:
+class EnvironmentInfo(TypedDict):
+    """A diagnostic snapshot of the current environment."""
+
+    ffmpeg: str
+    ffmpeg_path: str
+    ffprobe: str
+    ffprobe_path: str
+    backends: list[BackendStatus]
+    model: str
+    model_present: bool
+    model_path: str
+    cpu_count: int
+
+
+def describe_environment(model: str = "realesr-animevideov3") -> EnvironmentInfo:
     """Collect diagnostic information about the current environment."""
     from .backends.factory import list_backends
     from .ffmpeg_wrapper import ffmpeg_version, ffprobe_version, find_ffmpeg, find_ffprobe

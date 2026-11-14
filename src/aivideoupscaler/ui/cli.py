@@ -24,6 +24,7 @@ from ..engine import default_output_path, run_upscale
 from ..errors import UpscalerError
 from ..ffmpeg_wrapper import probe
 from ..models.registry import MODELS
+from ..pipeline import Progress as PipelineProgress
 from .commands import register as register_commands
 
 app = typer.Typer(
@@ -218,7 +219,7 @@ def upscale(
     )
     task_id = progress.add_task("Preparing", total=max(1, media.video.frame_count), rate=0.0)
 
-    def on_progress(update: object) -> None:
+    def on_progress(update: PipelineProgress) -> None:
         """Update the progress bar from the pipeline callback."""
         progress.update(
             task_id,

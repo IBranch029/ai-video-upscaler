@@ -1,0 +1,9 @@
+﻿
+src\aivideoupscaler\backends\classical.py:3:This backend uses a high-quality Lanczos resampling pass followed by an
+src\aivideoupscaler\backends\classical.py:15:from .base import BackendStatus, UpscalerBackend, lanczos_filter
+src\aivideoupscaler\backends\classical.py:19:    """Lanczos + adaptive unsharp mask upscaler."""
+src\aivideoupscaler\backends\classical.py:51:                "Lanczos resampling with adaptive unsharp masking "
+src\aivideoupscaler\backends\classical.py:74:        resized = source.resize(target_size, lanczos_filter())
+src\aivideoupscaler\backends\classical.py:77:        return np.ascontiguousarray(to_bgr_uint8(array[:, :, ::-1]))
+
+

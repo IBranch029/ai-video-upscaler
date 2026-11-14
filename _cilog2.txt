@@ -1,0 +1,50 @@
+﻿
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.1656260Z src/aivideoupscaler/backends/torch_esrgan.py:232: error: "None" has no attribute "no
+_grad"  [attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.1656940Z src/aivideoupscaler/backends/torch_esrgan.py:243: error: "None" has no attribute "ze
+ros"  [attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2654300Z src/aivideoupscaler/pipeline.py:140: error: "object" has no attribute "read"  [attr-
+defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2655570Z src/aivideoupscaler/pipeline.py:140: note: Error code "attr-defined" not covered by 
+"type: ignore[union-attr]" comment
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2656310Z src/aivideoupscaler/pipeline.py:158: error: "object" has no attribute "read"  [attr-
+defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2657080Z src/aivideoupscaler/pipeline.py:463: error: "object" has no attribute "upscale_batch
+"  [attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2659680Z src/aivideoupscaler/pipeline.py:518: error: Item "None" of "IO[Any] | None" has no a
+ttribute "write"  [union-attr]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2660740Z src/aivideoupscaler/pipeline.py:527: error: Module has no attribute "LANCZOS"  [attr
+-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2765000Z src/aivideoupscaler/backends/ncnn.py:67: error: Missing return statement  [return]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.2766290Z src/aivideoupscaler/backends/ncnn.py:112: error: Item "None" of "Path | None" has no
+ attribute "name"  [union-attr]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3020500Z src/aivideoupscaler/backends/classical.py:74: error: Module has no attribute "LANCZO
+S"  [attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3049710Z src/aivideoupscaler/backends/factory.py:69: error: Incompatible types in assignment 
+(expression has type "TorchBackend", variable has type "NcnnBackend")  [assignment]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3124710Z src/aivideoupscaler/ui/gui.py:79: error: "object" has no attribute "frames_done"  [a
+ttr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3126500Z src/aivideoupscaler/ui/gui.py:79: error: "object" has no attribute "frames_total"  [
+attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3127910Z src/aivideoupscaler/ui/gui.py:79: error: "object" has no attribute "stage"  [attr-de
+fined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3195320Z src/aivideoupscaler/ui/commands.py:59: error: Argument 2 to "add_row" of "Table" has
+ incompatible type "object"; expected "ConsoleRenderable | RichCast | str | None"  [arg-type]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3197240Z src/aivideoupscaler/ui/commands.py:60: error: Argument 2 to "add_row" of "Table" has
+ incompatible type "object"; expected "ConsoleRenderable | RichCast | str | None"  [arg-type]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3198570Z src/aivideoupscaler/ui/commands.py:71: error: "object" has no attribute "__iter__"; 
+maybe "__dir__" or "__str__"? (not iterable)  [attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3199510Z src/aivideoupscaler/ui/commands.py:71: note: Error code "attr-defined" not covered b
+y "type: ignore[index]" comment
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3276120Z src/aivideoupscaler/ui/cli.py:225: error: "object" has no attribute "frames_done"  [
+attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3315790Z src/aivideoupscaler/ui/cli.py:226: error: "object" has no attribute "frames_total"  
+[attr-defined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3321020Z src/aivideoupscaler/ui/cli.py:227: error: "object" has no attribute "stage"  [attr-d
+efined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3321820Z src/aivideoupscaler/ui/cli.py:228: error: "object" has no attribute "fps"  [attr-def
+ined]
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.3978560Z Found 23 errors in 8 files (checked 22 source files)
+Test on macos-latest	Type check with mypy	2026-11-14T18:25:56.4079900Z ##[error]Process completed with exit code 1.
+
+

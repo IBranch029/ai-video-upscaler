@@ -1,0 +1,101 @@
+﻿invalid-syntax: Expected an indented block after `if` statement
+   --> src\aivideoupscaler\pipeline.py:365:9
+    |
+364 | ÔÇŽ     if decoder.stdout is None:  # pragma: no cover - the decoder always has a pipe`n            raise PipelineError("The FFmpeg decÔÇŽ
+365 | ÔÇŽ     try:
+    |       ^^^
+366 | ÔÇŽ         self._pump(reader, encoder)
+367 | ÔÇŽ     finally:
+    |
+
+invalid-syntax: Got unexpected token `
+  --> src\aivideoupscaler\ui\cli.py:23:54
+   |
+22 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+23 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                      ^
+24 | from ..errors import UpscalerError
+25 | from ..ffmpeg_wrapper import probe
+   |
+
+invalid-syntax: Expected `,`, found `.`
+  --> src\aivideoupscaler\ui\cli.py:23:61
+   |
+22 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+23 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                             ^
+24 | from ..errors import UpscalerError
+25 | from ..ffmpeg_wrapper import probe
+   |
+
+invalid-syntax: Expected `,`, found `.`
+  --> src\aivideoupscaler\ui\cli.py:23:62
+   |
+22 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+23 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                              ^
+24 | from ..errors import UpscalerError
+25 | from ..ffmpeg_wrapper import probe
+   |
+
+invalid-syntax: Simple statements must be separated by newlines or semicolons
+  --> src\aivideoupscaler\ui\cli.py:23:72
+   |
+22 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+23 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                                        ^^^^^^
+24 | from ..errors import UpscalerError
+25 | from ..ffmpeg_wrapper import probe
+   |
+
+invalid-syntax: Got unexpected token `
+  --> src\aivideoupscaler\ui\gui.py:40:54
+   |
+39 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+40 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                      ^
+41 | from ..errors import UpscalerError
+42 | from ..models.registry import list_models
+   |
+
+invalid-syntax: Expected `,`, found `.`
+  --> src\aivideoupscaler\ui\gui.py:40:61
+   |
+39 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+40 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                             ^
+41 | from ..errors import UpscalerError
+42 | from ..models.registry import list_models
+   |
+
+invalid-syntax: Expected `,`, found `.`
+  --> src\aivideoupscaler\ui\gui.py:40:62
+   |
+39 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+40 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                              ^
+41 | from ..errors import UpscalerError
+42 | from ..models.registry import list_models
+   |
+
+invalid-syntax: Simple statements must be separated by newlines or semicolons
+  --> src\aivideoupscaler\ui\gui.py:40:72
+   |
+39 | from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConfig
+40 | from ..engine import default_output_path, run_upscale`nfrom ..pipeline import Progress
+   |                                                                        ^^^^^^
+41 | from ..errors import UpscalerError
+42 | from ..models.registry import list_models
+   |
+
+Found 9 errors.
+python : error: Failed to parse src\aivideoupscaler\pipeline.py:365:9: Expected an indented block after `if` statement
+At line:1 char:109
++ ... ile -Encoding utf8 '_rf5.txt'; python -m ruff format src 2>&1 | Out-F ...
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (error: Failed t... `if` statement:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+error: Failed to parse src\aivideoupscaler\ui\cli.py:23:54: Got unexpected token `
+error: Failed to parse src\aivideoupscaler\ui\gui.py:40:54: Got unexpected token `
+2 files reformatted, 17 files left unchanged

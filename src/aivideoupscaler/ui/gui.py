@@ -40,6 +40,7 @@ from ..config import BackendName, Codec, Container, EncoderSettings, UpscaleConf
 from ..engine import default_output_path, run_upscale
 from ..errors import UpscalerError
 from ..models.registry import list_models
+from ..pipeline import Progress
 
 
 class _Worker(QObject):
@@ -74,7 +75,7 @@ class _Worker(QObject):
             return
         self.finished.emit(str(result.output_path), True)
 
-    def _on_progress(self, update: object) -> None:
+    def _on_progress(self, update: Progress) -> None:
         """Forward the pipeline progress to the UI thread."""
         self.progress.emit(update.frames_done, update.frames_total, update.stage)
 

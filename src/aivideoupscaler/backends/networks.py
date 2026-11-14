@@ -230,6 +230,7 @@ def describe_state_dict(state: dict[str, Any]) -> dict[str, int]:
 def build_network(state: dict[str, Any]) -> tuple[nn.Module, int]:
     """Build the network matching ``state`` and return it with its scale."""
     info = describe_state_dict(state)
+    net: nn.Module
 
     if info["kind"] == 0:
         net = RRDBNet(

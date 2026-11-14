@@ -12,7 +12,7 @@ import numpy as np
 
 from ..errors import BackendError
 from ..models.registry import ModelInfo
-from .base import BackendStatus, UpscalerBackend, to_bgr_uint8
+from .base import BackendStatus, UpscalerBackend, lanczos_filter, to_bgr_uint8
 
 
 class ClassicalBackend(UpscalerBackend):
@@ -71,7 +71,7 @@ class ClassicalBackend(UpscalerBackend):
         source = Image.fromarray(np.ascontiguousarray(frame[:, :, ::-1]))
         width, height = source.size
         target_size = (width * self.scale, height * self.scale)
-        resized = source.resize(target_size, Image.LANCZOS)
+        resized = source.resize(target_size, lanczos_filter())
         array = np.asarray(resized, dtype=np.float32)
         array = self._unsharp(array)
         return np.ascontiguousarray(to_bgr_uint8(array[:, :, ::-1]))

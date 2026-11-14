@@ -1,0 +1,4 @@
+﻿src\aivideoupscaler\ui\cli.py:23: error: Got unexpected token `  [syntax]
+src\aivideoupscaler\ui\cli.py:23: error: Expected `,`, found `.`  [syntax]
+src\aivideoupscaler\ui\cli.py:23: error: Simple statements must be separated by newlines or semicolons  [syntax]
+Found 3 errors in 1 file (errors prevented further checking)
