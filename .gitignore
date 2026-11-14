@@ -67,3 +67,5 @@ aivideoupscaler-*.tar.gz
 _*.log
 _*.err
 
+_*.txt
+

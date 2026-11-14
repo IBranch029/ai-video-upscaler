@@ -1,3 +1,0 @@
-﻿completed	success	fix: keep the release workflow and the console pause in order	CI	main	push	43633076976	1m50s	2026-11-14T19:37:11Z
-completed	success	fix: show the FFmpeg version in the interface header	CI	main	push	43632863836	2m5s	2026-11-14T19:34:52Z
-completed	success	feat: add an interactive terminal interface	CI	main	push	43632349884	2m9s	2026-11-14T19:29:21Z

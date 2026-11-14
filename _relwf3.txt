@@ -1,8 +1,0 @@
-﻿{"conclusion":"failure","status":"completed"}
-gh : accepts at most 1 arg(s), received 2
-At line:1 char:125
-+ ... elwf3.txt'; gh release view v1.1.0 --json assets --jq '.assets[] | "\ ...
-+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (accepts at most 1 arg(s), received 2:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
