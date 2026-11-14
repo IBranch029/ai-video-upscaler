@@ -82,6 +82,7 @@ jobs:
       - name: Create the archive
         shell: bash
         run: |
+          cp RELEASE_NOTES.md dist/RELEASE_NOTES.md
           cd dist
           if [ "${{ runner.os }}" == "Windows" ]; then
             7z a "../${{ matrix.artifact }}.zip" ./aivideoupscaler
@@ -117,8 +118,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.inputs.tag || github.ref_name }}
         run: |
-          gh release create "$TAG" \
-            --title "$TAG: AI 4K Video Upscaler" \
-            --notes-file RELEASE_NOTES.md \
-            artifacts/*.zip \
-            artifacts/*.tar.gz
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "The release already exists, uploading the artefacts to it."
+            gh release upload "$TAG" \
+              --clobber \
+              artifacts/*.zip \
+              artifacts/*.tar.gz
+          else
+            gh release create "$TAG" \
+              --title "$TAG: AI 4K Video Upscaler" \
+              --notes-file RELEASE_NOTES.md \
+              artifacts/*.zip \
+              artifacts/*.tar.gz
+          fi
