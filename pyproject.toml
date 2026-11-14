@@ -1,0 +1,141 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aivideoupscaler"
+version = "1.0.0"
+description = "AI 4K video upscaler: super-resolve low resolution video to 4K with Real-ESRGAN."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "IBranch029" }]
+keywords = ["video", "upscale", "super-resolution", "real-esrgan", "4k", "ffmpeg"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+
+dependencies = [
+    "numpy>=1.24,<3.0",
+    "Pillow>=10.0,<13.0",
+    "typer>=0.12,<1.0",
+    "rich>=13.0,<15.0",
+    "click>=8.1,<9.0",
+    "platformdirs>=4.0,<7.0",
+    "requests>=2.31,<3.0",
+]
+
+[project.optional-dependencies]
+torch = [
+    "torch>=2.1",
+    "torchvision>=0.16",
+]
+directml = [
+    "torch>=2.1",
+    "torch-directml>=0.2.3",
+]
+gui = [
+    "PySide6>=6.5",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pyinstaller>=6.8",
+    "build>=1.2",
+]
+all = [
+    "aivideoupscaler[torch,gui]",
+]
+
+[project.urls]
+Homepage = "https://github.com/IBranch029/ai-video-upscaler"
+Repository = "https://github.com/IBranch029/ai-video-upscaler"
+Issues = "https://github.com/IBranch029/ai-video-upscaler/issues"
+Changelog = "https://github.com/IBranch029/ai-video-upscaler/releases"
+
+[project.scripts]
+aivu = "aivideoupscaler.ui.cli:main"
+aivideoupscaler = "aivideoupscaler.ui.cli:main"
+
+[project.gui-scripts]
+aivideoupscaler-gui = "aivideoupscaler.ui.gui:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aivideoupscaler"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/models",
+    "/scripts",
+    "/packaging",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: marks tests that take a long time to run",
+    "requires_ffmpeg: marks tests that need an FFmpeg installation",
+    "requires_torch: marks tests that need PyTorch",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "RUF"]
+ignore = [
+    "E501",    # line length is handled by the formatter
+    "B008",    # Typer relies on function calls in defaults
+    "N802",    # FFmpeg naming conventions
+    "SIM105",  # contextlib.suppress is not always clearer
+    "RUF012",  # mutable class attributes are used deliberately
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "D103"]
+"scripts/*" = ["T201"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_configs = true
+ignore_missing_imports = true
+check_untyped_defs = true
+disallow_untyped_defs = false
+no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = ["numpy.*", "PIL.*", "torch.*"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["src/aivideoupscaler"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]

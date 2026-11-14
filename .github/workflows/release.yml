@@ -1,0 +1,124 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: aivideoupscaler-windows
+            suffix: windows-x64
+          - os: ubuntu-latest
+            artifact: aivideoupscaler-linux
+            suffix: linux-x64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller
+
+      - name: Install FFmpeg
+        shell: bash
+        run: |
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            curl -L --retry 3 -o ffmpeg.zip \
+              https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip
+            7z x ffmpeg.zip -o ffmpeg_extract
+            mkdir -p bin
+            cp ffmpeg_extract/*/bin/ffmpeg.exe ffmpeg_extract/*/bin/ffprobe.exe bin/
+          else
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+            mkdir -p bin
+            ln -sf "$(which ffmpeg)" bin/ffmpeg
+            ln -sf "$(which ffprobe)" bin/ffprobe
+          fi
+
+      - name: Run the test suite
+        run: |
+          python -m pytest tests -q --cov=aivideoupscaler --cov-report=xml
+
+      - name: Build the executable
+        run: |
+          python -m PyInstaller packaging/aivideoupscaler.spec --noconfirm --clean
+
+      - name: Smoke test the executable
+        shell: bash
+        run: |
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            ./dist/aivideoupscaler/aivideoupscaler.exe --version
+          else
+            chmod +x ./dist/aivideoupscaler/aivideoupscaler
+            ./dist/aivideoupscaler/aivideoupscaler --version
+          fi
+
+      - name: Create the archive
+        shell: bash
+        run: |
+          cd dist
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            7z a "../${{ matrix.artifact }}.zip" ./aivideoupscaler
+          else
+            tar -czf "../${{ matrix.artifact }}.tar.gz" ./aivideoupscaler
+          fi
+
+      - name: Upload the artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            ${{ matrix.artifact }}.zip
+            ${{ matrix.artifact }}.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: Publish the release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download the artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          gh release create "$TAG" \
+            --title "$TAG: AI 4K Video Upscaler" \
+            --notes-file RELEASE_NOTES.md \
+            artifacts/*.zip \
+            artifacts/*.tar.gz

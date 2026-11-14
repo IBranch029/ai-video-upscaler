@@ -1,0 +1,48 @@
+﻿fc0959a feat: initial release of 4k video upscaler
+fc0959a feat: initial release of 4k video upscaler
+ .github/workflows/ci.yml                     |  62 +++
+ .github/workflows/release.yml                | 124 ++++++
+ .gitignore                                   |  55 +++
+ LICENSE                                      |  21 +
+ README.md                                    | 439 ++++++++++++++++++++
+ RELEASE_NOTES.md                             |  52 +++
+ _pyi.err                                     |   0
+ docs/ARCHITECTURE.md                         | 130 ++++++
+ docs/CONTRIBUTING.md                         |  77 ++++
+ models/download_models.py                    |  91 ++++
+ packaging/aivideoupscaler.spec               | 105 +++++
+ pyproject.toml                               | 141 +++++++
+ requirements.txt                             |  38 ++
+ scripts/inspect_models.py                    |  59 +++
+ scripts/validate_models.py                   |  69 ++++
+ scripts/verify_model_urls.py                 |  53 +++
+ src/aivideoupscaler/__init__.py              |  80 ++++
+ src/aivideoupscaler/__main__.py              |   9 +
+ src/aivideoupscaler/backends/__init__.py     |  23 ++
+ src/aivideoupscaler/backends/base.py         | 101 +++++
+ src/aivideoupscaler/backends/classical.py    | 117 ++++++
+ src/aivideoupscaler/backends/factory.py      | 146 +++++++
+ src/aivideoupscaler/backends/ncnn.py         | 312 ++++++++++++++
+ src/aivideoupscaler/backends/networks.py     | 253 ++++++++++++
+ src/aivideoupscaler/backends/torch_esrgan.py | 267 ++++++++++++
+ src/aivideoupscaler/config.py                | 165 ++++++++
+ src/aivideoupscaler/engine.py                | 127 ++++++
+ src/aivideoupscaler/errors.py                |  70 ++++
+ src/aivideoupscaler/ffmpeg_wrapper.py        | 488 ++++++++++++++++++++++
+ src/aivideoupscaler/models/__init__.py       |  27 ++
+ src/aivideoupscaler/models/downloader.py     | 175 ++++++++
+ src/aivideoupscaler/models/registry.py       | 132 ++++++
+ src/aivideoupscaler/paths.py                 |  85 ++++
+ src/aivideoupscaler/pipeline.py              | 596 +++++++++++++++++++++++++++
+ src/aivideoupscaler/ui/__init__.py           |   5 +
+ src/aivideoupscaler/ui/cli.py                | 263 ++++++++++++
+ src/aivideoupscaler/ui/commands.py           | 161 ++++++++
+ src/aivideoupscaler/ui/gui.py                | 338 +++++++++++++++
+ tests/conftest.py                            |  93 +++++
+ tests/test_backends.py                       |  68 +++
+ tests/test_cli.py                            |  88 ++++
+ tests/test_config.py                         |  64 +++
+ tests/test_engine.py                         | 116 ++++++
+ tests/test_ffmpeg_wrapper.py                 | 111 +++++
+ tests/test_pipeline.py                       |  47 +++
+ 45 files changed, 6043 insertions(+)

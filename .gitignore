@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+.installed.cfg
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing and type checking
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Application data: downloaded models and helper binaries
+models/*.pth
+models/*.param
+models/*.bin
+models/ncnn/
+models/*.zip
+bin/
+.cache/
+*.aivup-tmp/
+
+# Build artefacts
+*.spec.bak
+packaging/output/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.part
+
+# Local scratch directories
+downloads/
+
+
+# PyInstaller logs
+_pyi.*
+

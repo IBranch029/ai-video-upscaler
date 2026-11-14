@@ -1,0 +1,38 @@
+# Runtime dependencies for the AI 4K video upscaler.
+#
+# Install with:   pip install -r requirements.txt
+# The optional accelerators are listed at the bottom.
+
+numpy>=1.24,<3.0
+Pillow>=10.0,<13.0
+typer>=0.12,<1.0
+rich>=13.0,<15.0
+click>=8.1,<9.0
+platformdirs>=4.0,<7.0
+requests>=2.31,<3.0
+
+# ---------------------------------------------------------------------------
+# Optional: PyTorch backend (CUDA / DirectML / MPS / CPU)
+# pip install torch --index-url https://download.pytorch.org/whl/cpu
+# ---------------------------------------------------------------------------
+# torch>=2.1
+
+# ---------------------------------------------------------------------------
+# Optional: DirectML backend for AMD/Intel GPUs on Windows
+# ---------------------------------------------------------------------------
+# torch-directml>=0.2.3
+
+# ---------------------------------------------------------------------------
+# Optional: graphical interface
+# ---------------------------------------------------------------------------
+# PySide6>=6.5
+
+# ---------------------------------------------------------------------------
+# Development and packaging
+# ---------------------------------------------------------------------------
+# pytest>=8.0
+# pytest-cov>=5.0
+# ruff>=0.6
+# mypy>=1.11
+# pyinstaller>=6.8
+# build>=1.2
