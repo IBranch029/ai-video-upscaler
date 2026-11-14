@@ -44,18 +44,18 @@ err_console = Console(stderr=True)
 
 
 def _force_utf8_output() -> None:
-    """Make stdout and stderr tolerant of non-ASCII characters.
+    """Make stdout and stderr tolerant of characters the console cannot encode.
 
     Windows consoles often use a legacy code page (cp1250, cp437, ...).  Rich
     draws box characters and braille spinners, which those code pages cannot
-    encode, so the streams are reconfigured to replace unencodable glyphs
-    instead of raising ``UnicodeEncodeError``.
+    encode.  Only the error handler is relaxed, so the console's own encoding
+    is preserved and the output stays readable.
     """
     for stream in (sys.stdout, sys.stderr):
         reconfigure = getattr(stream, "reconfigure", None)
         if callable(reconfigure):
             try:
-                reconfigure(encoding="utf-8", errors="replace")
+                reconfigure(errors="replace")
             except (ValueError, OSError):  # pragma: no cover - platform specific
                 pass
 

@@ -32,6 +32,26 @@ def app_root() -> Path:
     return SOURCE_ROOT
 
 
+def bundle_dirs() -> list[Path]:
+    """Return the directories that may hold the bundled helper binaries.
+
+    PyInstaller stores the collected binaries in the ``_internal`` folder of a
+    one-folder bundle, while a source checkout keeps them in ``bin``.  The
+    application folder is searched first, then the (overridable) home folder.
+    """
+    roots = [app_root()]
+    home = home_dir()
+    if home != roots[0]:
+        roots.append(home)
+
+    candidates: list[Path] = []
+    for root in roots:
+        candidates.extend(
+            [root / "bin", root / "_internal" / "bin", root / "_internal"]
+        )
+    return [candidate for candidate in candidates if candidate.is_dir()]
+
+
 def home_dir() -> Path:
     """Writable root for models, binaries and caches."""
     override = os.environ.get(ENV_HOME)
@@ -74,12 +94,11 @@ def resolve_binary(name: str, env_var: str | None = None) -> Path | None:
         if candidate.is_file():
             return candidate.resolve()
 
-    local = binaries_dir() / name
-    if local.is_file():
-        return local.resolve()
-
-    local_exe = binaries_dir() / f"{name}.exe"
-    if local_exe.is_file():
-        return local_exe.resolve()
+    names = [name, f"{name}.exe"] if sys.platform == "win32" else [name]
+    for directory in bundle_dirs():
+        for candidate_name in names:
+            candidate = directory / candidate_name
+            if candidate.is_file():
+                return candidate.resolve()
 
     return None

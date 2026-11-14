@@ -1,0 +1,4 @@
+﻿v1.0.0
+a9ddf0a fix: use a dedicated launcher for the frozen executable
+1226106 build: exclude PySide6 from the standalone bundle by default
+81d6f08 feat: initial release of 4k video upscaler

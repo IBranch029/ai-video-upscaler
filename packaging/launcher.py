@@ -8,7 +8,6 @@ absolute import and starts the command line interface.
 from __future__ import annotations
 
 import multiprocessing
-import sys
 
 from aivideoupscaler.ui.cli import _force_utf8_output, main
 
