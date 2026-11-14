@@ -1,0 +1,12 @@
+﻿
+Length
+------
+ 25869
+
+
+[>1u]22;default ?      AI 4K Video Upscaler — Real-ESRGAN super-resolution with loss… 20:39:02 
+ FFmpeg 9.0.2-essentials_build-www.gyan.dev  |  GPU NVIDIA GeForce RTX 4060     
+ Laptop GPU - 8.0 GB VRAM  |  RAM 13.0 GB / 15.7 GB                             
+?                  ?  4K - 3840x2160                       ?  ?                ?
+                                                                                 ?      AI 4K Video Upscaler — Real-ESRGAN super-resolution with loss… 20:39:02 
+?                  ?  4K - 3840x2160                       ?  ?                ?

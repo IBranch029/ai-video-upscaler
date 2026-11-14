@@ -131,8 +131,11 @@ obvious which engine will actually run.
 
 A frozen executable that is started by double clicking owns a console window.
 The application therefore waits for a key press before it exits, so the window
-never vanishes before the user has read the output. Set the environment
-variable `AIVU_NO_PAUSE=1` to disable the pause for scripted usage.
+never vanishes before the user has read the output. The pause only happens in
+that case: when a command was given, or when the standard input is not a
+terminal (a script or a continuous integration job), the program exits
+immediately. Set the environment variable `AIVU_NO_PAUSE=1` to disable the
+pause entirely.
 
 ---
 

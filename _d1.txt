@@ -1,0 +1,12 @@
+﻿+-------------------------------- Environment --------------------------------+
+|  FFmpeg           ffmpeg version 9.0.2-essentials_build-www.gyan.dev        |
+|                   Copyright (c) 2000-2026 the FFmpeg developers             |
+|  ffprobe          ffprobe version 9.0.2-essentials_build-www.gyan.dev       |
+|                   Copyright (c) 2007-2026 the FFmpeg developers             |
+|  CPU threads      20                                                        |
+|  Models folder    C:\Users\pines\Desktop\test\dist\aivideoupscaler\models   |
+|  Binaries folder  C:\Users\pines\Desktop\test\dist\aivideoupscaler\bin      |
++-----------------------------------------------------------------------------+
+                                   Backends                                    
++-----------------------------------------------------------------------------+
+| Backend   | Status      | Device | Details                                  |

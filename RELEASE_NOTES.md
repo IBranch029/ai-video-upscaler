@@ -41,7 +41,8 @@ installation is required.
 - The PyTorch backend is optional and is not part of the standalone build; use
   the `ncnn` backend for GPU acceleration without extra dependencies.
 - Set `AIVU_NO_PAUSE=1` to stop the executable from waiting for a key press
-  before it closes the console window.
+  before it closes the console window. The pause only happens when the
+  executable is started without any argument, so scripts are never blocked.
 
 ---
 
