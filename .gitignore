@@ -62,3 +62,8 @@ _pyi.*
 aivideoupscaler-*.zip
 aivideoupscaler-*.tar.gz
 
+
+# Local scratch logs
+_*.log
+_*.err
+
