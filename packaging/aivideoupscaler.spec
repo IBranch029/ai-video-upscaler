@@ -63,7 +63,7 @@ if NCNN_DIR.is_dir():
         datas.append((str(candidate), "models/ncnn"))
 
 analysis = Analysis(
-    [str(SRC / "aivideoupscaler" / "__main__.py")],
+    [str(PROJECT_ROOT / "packaging" / "launcher.py")],
     pathex=[str(SRC)],
     binaries=binaries,
     datas=datas,

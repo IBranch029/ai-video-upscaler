@@ -1,0 +1,19 @@
+﻿F401 [*] `sys` imported but unused
+  --> packaging\launcher.py:11:8
+   |
+10 | import multiprocessing
+11 | import sys
+   |        ^^^
+12 |
+13 | from aivideoupscaler.ui.cli import _force_utf8_output, main
+   |
+help: Remove unused import: `sys`
+   |
+10 | import multiprocessing
+   - import sys
+11 |
+   |
+
+Found 1 error.
+[*] 1 fixable with `--fix`.
+4 files left unchanged
