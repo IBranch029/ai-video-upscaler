@@ -28,7 +28,8 @@ it the default entry point of the Windows executable.
 
 | Platform | File |
 | --- | --- |
-| Windows x64 | `aivideoupscaler-windows-x64.zip` |
+| Windows x64 | `aivideoupscaler-windows.zip` |
+| Linux x64 | `aivideoupscaler-linux.tar.gz` |
 
 Each archive contains the standalone executable, the bundled FFmpeg helpers and
 the documentation. The FFmpeg binaries are bundled, so no system-wide FFmpeg
