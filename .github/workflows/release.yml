@@ -1,4 +1,4 @@
-name: Release
+﻿name: Release
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
           if [ "${{ runner.os }}" == "Windows" ]; then
             curl -L --retry 3 -o ffmpeg.zip \
               https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip
-            7z x ffmpeg.zip -o ffmpeg_extract
+            unzip -q ffmpeg.zip -d ffmpeg_extract
             mkdir -p bin
             cp ffmpeg_extract/*/bin/ffmpeg.exe ffmpeg_extract/*/bin/ffprobe.exe bin/
           else

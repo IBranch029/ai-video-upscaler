@@ -1,0 +1,6 @@
+﻿queued		ci: upload the artefacts when the release already exists	Release	v1.0.0	push	43626263663	37s	2026-11-14T18:22:42Z
+in_progress		ci: upload the artefacts when the release already exists	CI	main	push	43626260633	39s	2026-11-14T18:22:40Z
+completed	failure	fix: locate the bundled binaries in the PyInstaller _internal folder	CI	main	push	43626027537	1m26s	2026-11-14T18:20:16Z
+completed	failure	feat: initial release of 4k video upscaler	CI	main	push	43625535850	1m57s	2026-11-14T18:15:05Z
+CI	active	418522152
+Release	active	418522153

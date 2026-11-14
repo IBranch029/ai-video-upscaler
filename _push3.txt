@@ -1,0 +1,17 @@
+﻿git : To https://github.com/IBranch029/ai-video-upscaler.git
+At line:3 char:60
++ ... so they travel with the artefact."; git push origin main 2>&1 | Out-F ...
++                                         ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...eo-upscaler.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   3ec8c19..8cdc7a8  main -> main
+Updated tag 'v1.0.0' (was ceb9735)
+git : To https://github.com/IBranch029/ai-video-upscaler.git
+At line:3 char:241
++ ... coding utf8 -Append '_push3.txt'; git push origin v1.0.0 2>&1 | Out-F ...
++                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...eo-upscaler.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ * [new tag]         v1.0.0 -> v1.0.0
