@@ -1,2 +1,0 @@
-﻿src\aivideoupscaler\backends\factory.py:69: error: Incompatible types in assignment (expression has type "TorchBackend", variable has type "NcnnBackend")  [assignment]
-Found 1 error in 1 file (checked 22 source files)

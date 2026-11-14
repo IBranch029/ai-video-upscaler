@@ -1,6 +1,0 @@
-﻿
-.github\workflows\ci.yml:44:            unzip -q ffmpeg.zip -d ffmpeg_extract
-.github\workflows\release.yml:53:            unzip -q ffmpeg.zip -d ffmpeg_extract
-.github\workflows\release.yml:88:            7z a "../${{ matrix.artifact }}.zip" ./aivideoupscaler
-
-

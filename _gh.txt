@@ -1,3 +1,0 @@
-﻿https://github.com/IBranch029/ai-video-upscaler
-origin	https://github.com/IBranch029/ai-video-upscaler.git (fetch)
-origin	https://github.com/IBranch029/ai-video-upscaler.git (push)

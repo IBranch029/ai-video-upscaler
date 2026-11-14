@@ -57,3 +57,8 @@ downloads/
 # PyInstaller logs
 _pyi.*
 
+
+# Release artefacts
+aivideoupscaler-*.zip
+aivideoupscaler-*.tar.gz
+

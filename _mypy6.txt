@@ -1,9 +1,0 @@
-﻿src\aivideoupscaler\pipeline.py:366: error: Argument 1 to "_FrameReader" has incompatible type "IO[bytes]"; expected "BinaryIO"  [arg-type]
-src\aivideoupscaler\backends\factory.py:69: error: Incompatible types in assignment (expression has type "TorchBackend", variable has type "NcnnBackend")  [assignment]
-src\aivideoupscaler\ui\cli.py:27: error: Incompatible import of "Progress" (imported name has type "type[aivideoupscaler.pipeline.Progress]", local name has type "type[rich.progress.Progress]")  [assignment]
-src\aivideoupscaler\ui\cli.py:226: error: "Progress" has no attribute "frames_done"  [attr-defined]
-src\aivideoupscaler\ui\cli.py:227: error: "Progress" has no attribute "frames_total"  [attr-defined]
-src\aivideoupscaler\ui\cli.py:228: error: "Progress" has no attribute "stage"  [attr-defined]
-src\aivideoupscaler\ui\cli.py:229: error: "Progress" has no attribute "fps"  [attr-defined]
-src\aivideoupscaler\ui\cli.py:234: error: Argument "progress_cb" to "run_upscale" has incompatible type "Callable[[rich.progress.Progress], None]"; expected "Callable[[aivideoupscaler.pipeline.Progress], None] | None"  [arg-type]
-Found 8 errors in 3 files (checked 22 source files)
