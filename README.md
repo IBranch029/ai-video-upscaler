@@ -9,18 +9,19 @@ Super-resolve low-resolution video to **4K (3840x2160)** with
 [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN), while keeping the original
 audio stream **bit-exact**.
 
-The application ships as a rich command line client (`aivu`) and a desktop GUI
-with drag-and-drop support. It runs on Windows, Linux and macOS and works with
-or without a GPU.
+The application ships as an **interactive terminal interface** (Textual), a rich
+command line client (`aivu`) and a desktop GUI with drag-and-drop support. It
+runs on Windows, Linux and macOS and works with or without a GPU.
 
 ---
 
 ## Table of contents
 
 - [Highlights](#highlights)
+- [Quick start](#quick-start)
+- [The interactive interface](#the-interactive-interface)
 - [Architecture](#architecture)
 - [Installation](#installation)
-- [Quick start](#quick-start)
 - [Command line reference](#command-line-reference)
 - [Python API](#python-api)
 - [Backends](#backends)
@@ -35,6 +36,10 @@ or without a GPU.
 
 ## Highlights
 
+- **Interactive terminal interface.** Running the executable without any
+  argument opens a full-screen interface with a file browser, pickers for the
+  target resolution, the backend and the model, a live progress display and a
+  cancel button.
 - **True 4K output.** The target resolution defaults to 2160p with the source
   aspect ratio preserved (3840x2160 for 16:9 material).
 - **Lossless audio.** The original audio track is stream-copied into the result
@@ -51,6 +56,83 @@ or without a GPU.
 - **Production-grade error handling.** Corrupt inputs, missing FFmpeg, absent
   GPU drivers and unsupported codecs all produce actionable messages.
 - **Zero heavyweight dependencies.** The core needs only NumPy and Pillow.
+
+---
+
+## Quick start
+
+### Windows (double click)
+
+Download `aivideoupscaler-windows-x64.zip`, extract it and **double click
+`aivideoupscaler.exe`**. The console window stays open and the interactive
+interface starts automatically.
+
+### From the command line
+
+```bash
+# Open the interactive interface
+aivu
+aivu tui
+
+# Or use the command line client
+aivu upscale input.mp4
+```
+
+### From Python
+
+```bash
+pip install aivideoupscaler
+```
+
+---
+
+## The interactive interface
+
+Running `aivu` without a command (or `aivu tui`) opens a full-screen
+[Textual](https://textual.textualize.io/) interface:
+
+```
+┌─ AI 4K Video Upscaler ───────────────────────────────────────────────────┐
+│ FFmpeg 9.0.2  |  no GPU detected - CPU mode  |  RAM 4.2 GB / 32.0 GB    │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Source                                                                  │
+│ [ Type a path to a video file and press Enter          ] [Open path]    │
+│ ┌ directory tree ────────────┐ ┌ files ───────────────────────────────┐  │
+│ │ ▾ D:\Videos                │ │ clip_360p.mp4  (12.4 MB)            │  │
+│ │   ▸ Downloads              │ │ movie.mkv      (1.2 GB)             │  │
+│ └────────────────────────────┘ └──────────────────────────────────────┘  │
+│ Settings                                                                │
+│ Target resolution [ 4K - 3840x2160 ▾ ]  Backend [ classical - cpu ▾ ]    │
+│ Model           [ RealESRGAN AnimeVideo v3 (x4) ▾ ]                    │
+│                                                                          │
+│                    [ Start upscaling ]  [ Cancel ]                     │
+│ ████████████████░░░░░░░░░░  62%   186/300 frames                      │
+│ 18.4 fps | ETA 00:06 | VRAM 4.2/12.0 GB | RAM 1.8 GB                   │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+| Key | Action |
+| --- | --- |
+| `F1` | Focus the file list |
+| `F2` | Focus the path field |
+| `F3` | Focus the target resolution picker |
+| `F4` | Focus the backend picker |
+| `F5` | Focus the model picker |
+| `Ctrl+O` | Focus the path field |
+| `Ctrl+R` | Reload the environment and the backend list |
+| `Ctrl+C` | Cancel the running job |
+| `Ctrl+Q` | Quit |
+
+The backend picker shows the device and the availability of every backend, for
+example `ncnn - vulkan (available)` or `torch - cpu (unavailable)`, so it is
+obvious which engine will actually run.
+
+### The Windows console window
+
+A frozen executable that is started by double clicking owns a console window.
+The application therefore waits for a key press before it exits, so the window
+never vanishes before the user has read the output. Set the environment
+variable `AIVU_NO_PAUSE=1` to disable the pause for scripted usage.
 
 ---
 

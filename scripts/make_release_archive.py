@@ -23,9 +23,7 @@ def build(source: Path, target: Path) -> int:
         target.unlink()
 
     files = sorted(p for p in source.rglob("*") if p.is_file())
-    with zipfile.ZipFile(
-        target, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
-    ) as archive:
+    with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path in files:
             archive.write(path, Path(source.name) / path.relative_to(source))
 

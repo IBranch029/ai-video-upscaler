@@ -26,12 +26,26 @@ def test_version_is_reported() -> None:
     assert "aivu" in result.stdout
 
 
-@pytest.mark.parametrize("command", ["upscale", "info", "doctor", "models"])
+@pytest.mark.parametrize("command", ["upscale", "info", "doctor", "tui", "models"])
 def test_commands_are_registered(command: str) -> None:
     """Every documented command appears in the help page."""
     result = runner.invoke(app, ["--help"])
     assert result.exit_code == 0
     assert command in result.stdout
+
+
+def test_the_help_page_mentions_the_interactive_interface() -> None:
+    """The help page explains that running without a command opens the TUI."""
+    result = runner.invoke(app, ["--help"])
+    assert result.exit_code == 0
+    assert "interactive" in result.stdout.lower()
+
+
+def test_the_tui_command_is_registered() -> None:
+    """The ``tui`` command has its own help page."""
+    result = runner.invoke(app, ["tui", "--help"])
+    assert result.exit_code == 0
+    assert "interactive" in result.stdout.lower()
 
 
 def test_unknown_model_is_rejected(tmp_path: Path) -> None:
@@ -61,6 +75,32 @@ def test_doctor_runs() -> None:
     result = runner.invoke(app, ["doctor"])
     assert result.exit_code == 0
     assert "Backends" in result.stdout
+
+
+def test_the_frozen_console_is_kept_open(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A frozen executable waits before the console window is closed."""
+    from aivideoupscaler.ui import cli
+
+    monkeypatch.setattr(cli.sys, "frozen", True, raising=False)
+    monkeypatch.delenv("AIVU_NO_PAUSE", raising=False)
+    assert cli._should_pause() is True
+
+
+def test_the_pause_can_be_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
+    """``AIVU_NO_PAUSE`` disables the pause for scripted usage."""
+    from aivideoupscaler.ui import cli
+
+    monkeypatch.setattr(cli.sys, "frozen", True, raising=False)
+    monkeypatch.setenv("AIVU_NO_PAUSE", "1")
+    assert cli._should_pause() is False
+
+
+def test_a_normal_installation_never_pauses(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A script installation must never block on a key press."""
+    from aivideoupscaler.ui import cli
+
+    monkeypatch.setattr(cli.sys, "frozen", False, raising=False)
+    assert cli._should_pause() is False
 
 
 def test_models_list_runs() -> None:

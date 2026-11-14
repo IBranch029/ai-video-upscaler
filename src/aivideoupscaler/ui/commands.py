@@ -148,6 +148,20 @@ def register(app: typer.Typer, models_app: typer.Typer, console: Console) -> Non
             console.print(f"[green]installed[/green] ncnn/Vulkan -> {executable}")
 
     @app.command()
+    def tui(
+        input_path: Path | None = typer.Option(
+            None,
+            "--input",
+            "-i",
+            help="Pre-select this video file when the interface opens.",
+        ),
+    ) -> None:
+        """Open the interactive terminal interface."""
+        from .cli import _run_tui
+
+        _run_tui(input_path)
+
+    @app.command()
     def gui() -> None:
         """Launch the graphical interface."""
         try:

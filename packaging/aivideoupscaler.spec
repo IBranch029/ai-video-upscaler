@@ -14,7 +14,7 @@ import os
 import sys
 from pathlib import Path
 
-from PyInstaller.utils.hooks import collect_submodules
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 PROJECT_ROOT = Path(SPECPATH).parent
 SRC = PROJECT_ROOT / "src"
@@ -30,12 +30,42 @@ block_cipher = None
 bundle_torch = os.environ.get("AIVU_BUNDLE_TORCH", "0") == "1"
 
 # PySide6 adds roughly 350 MB to the bundle, so the standalone executable
-# ships the command line client only.  Set AIVU_BUNDLE_GUI=1 to include the
-# graphical interface as well.
+# ships the command line client and the terminal interface only.  Set
+# AIVU_BUNDLE_GUI=1 to include the graphical interface as well.
 bundle_gui = os.environ.get("AIVU_BUNDLE_GUI", "0") == "1"
 
 hiddenimports = collect_submodules("aivideoupscaler")
 hiddenimports += ["PIL._tkinter_finder"]
+
+# The interactive terminal interface is built with Textual, which imports its
+# widgets lazily.  Collecting the submodules makes sure every widget, theme and
+# CSS parser is available inside the frozen executable.
+hiddenimports += collect_submodules("textual")
+hiddenimports += collect_submodules("textual.widgets")
+hiddenimports += collect_submodules("textual.css")
+hiddenimports += [
+    "textual._context",
+    "textual._xterm_parser",
+    "textual.app",
+    "textual.binding",
+    "textual.containers",
+    "textual.css.query",
+    "textual.css.styles",
+    "textual.events",
+    "textual.message",
+    "textual.message_pump",
+    "textual.reactive",
+    "textual.screen",
+    "textual.widget",
+    "textual.widgets.option_list",
+    "textual.widgets._directory_tree",
+    "textual.widgets._input",
+    "textual.widgets._option_list",
+    "textual.widgets._progress_bar",
+    "textual.widgets._select",
+    "textual.widgets._static",
+    "textual.widgets.option_list",
+]
 excludes = ["tkinter", "matplotlib", "pytest", "IPython", "notebook"]
 
 if not bundle_torch:
@@ -46,6 +76,9 @@ if not bundle_gui:
 
 datas = []
 binaries = []
+
+# Textual ships the tree-sitter highlight definitions as data files.
+datas += collect_data_files("textual", include_py_files=False, excludes=["*.pyc", "*.pyo"])
 
 # Bundle the helper executables when they are available.
 for name in ("ffmpeg", "ffprobe", "realesrgan-ncnn-vulkan"):

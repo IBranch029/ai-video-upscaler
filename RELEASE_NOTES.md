@@ -1,5 +1,50 @@
 # Release notes
 
+## v1.1.0 - Interactive terminal interface
+
+The 1.1.0 release adds a full-screen interactive terminal interface and makes
+it the default entry point of the Windows executable.
+
+### What is new
+
+- **Interactive terminal interface** built with
+  [Textual](https://textual.textualize.io/).
+  - Browse the folders with the directory tree and pick a video from the list of
+    the files in the current folder, or type the path directly.
+  - Choose the target resolution (2x, 4x, 4K - 3840x2160, Full HD or the source
+    resolution).
+  - Choose the backend. Every entry shows the device it would use and whether it
+    is available, for example `ncnn - vulkan (available)`.
+  - Choose the model out of the five downloadable Real-ESRGAN networks.
+  - Watch the progress bar with the frame counter, the throughput, the ETA, the
+    video memory and the system memory.
+  - Stop a running job with the cancel button or with `Ctrl+C`.
+- **Double clicking `aivideoupscaler.exe` now opens the interface** and the
+  console window is kept open until the user presses Enter, so nothing is lost.
+- **`aivu tui`** starts the interface explicitly.
+- Live hardware statistics through `nvidia-smi` and `psutil`.
+
+### Artefacts
+
+| Platform | File |
+| --- | --- |
+| Windows x64 | `aivideoupscaler-windows-x64.zip` |
+
+Each archive contains the standalone executable, the bundled FFmpeg helpers and
+the documentation. The FFmpeg binaries are bundled, so no system-wide FFmpeg
+installation is required.
+
+### Notes
+
+- The Real-ESRGAN weights are downloaded on demand with `aivu models install`
+  and are not bundled into the release artefacts.
+- The PyTorch backend is optional and is not part of the standalone build; use
+  the `ncnn` backend for GPU acceleration without extra dependencies.
+- Set `AIVU_NO_PAUSE=1` to stop the executable from waiting for a key press
+  before it closes the console window.
+
+---
+
 ## v1.0.0 - Initial release
 
 The first public release of the AI 4K video upscaler.

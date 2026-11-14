@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -31,10 +32,11 @@ app = typer.Typer(
     name="aivu",
     help=(
         "AI 4K video upscaler. Super-resolve low resolution videos to 4K with "
-        "Real-ESRGAN, preserving the original audio bit-exactly."
+        "Real-ESRGAN, preserving the original audio bit-exactly.\n\n"
+        "Run without a command to open the interactive terminal interface."
     ),
     add_completion=False,
-    no_args_is_help=True,
+    no_args_is_help=False,
     rich_markup_mode="rich",
 )
 models_app = typer.Typer(help="Manage the downloadable Real-ESRGAN weights.", no_args_is_help=True)
@@ -61,6 +63,43 @@ def _force_utf8_output() -> None:
                 pass
 
 
+def _run_tui(initial_path: Path | None = None) -> None:
+    """Start the interactive terminal interface."""
+    try:
+        from .tui import run_tui
+    except ImportError as exc:
+        err_console.print(
+            "[bold red]Error:[/bold red] the interactive interface needs Textual. "
+            "Install it with 'pip install aivideoupscaler[tui]'."
+        )
+        raise typer.Exit(code=1) from exc
+    run_tui(initial_path)
+
+
+def _should_pause() -> bool:
+    """Return ``True`` when the console must stay open after the program ends.
+
+    A frozen executable that is started by double clicking in the file
+    explorer owns a console window that would vanish the moment the process
+    exits.  Pausing before the exit keeps the window (and any message the user
+    should read) on screen.
+    """
+    if not getattr(sys, "frozen", False):
+        return False
+    return not os.environ.get("AIVU_NO_PAUSE")
+
+
+def _pause_before_exit() -> None:
+    """Wait for the user before the console window is closed."""
+    if not _should_pause():
+        return
+    try:
+        console.print("\n[dim]Press Enter to close this window...[/dim]")
+        input()
+    except (EOFError, KeyboardInterrupt):  # pragma: no cover - console specific
+        pass
+
+
 def _fail(message: str) -> None:
     """Print an error message and exit with a non-zero status."""
     err_console.print(f"[bold red]Error:[/bold red] {message}")
@@ -76,8 +115,9 @@ def _version_callback(value: bool) -> None:
         raise typer.Exit()
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def root(
+    ctx: typer.Context,
     version: bool = typer.Option(
         False,
         "--version",
@@ -87,7 +127,16 @@ def root(
         is_eager=True,
     ),
 ) -> None:
-    """AI 4K video upscaler."""
+    """AI 4K video upscaler.
+
+    Run without any command to open the interactive interface.
+    """
+    if ctx.invoked_subcommand is None and not version:
+        # No command was given: open the interactive interface instead of
+        # printing the help page.  This is what happens when the executable is
+        # started by double clicking it in the file explorer.
+        _run_tui()
+        raise typer.Exit()
 
 
 @app.command()
@@ -257,7 +306,12 @@ register_commands(app, models_app, console)
 def main() -> None:
     """Console script entry point."""
     _force_utf8_output()
-    app()
+    try:
+        app()
+    finally:
+        # A frozen executable that was started by double clicking owns a
+        # console window.  Keep it open so the user can read the output.
+        _pause_before_exit()
 
 
 if __name__ == "__main__":
