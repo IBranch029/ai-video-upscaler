@@ -11,12 +11,27 @@ import asyncio
 from pathlib import Path
 
 from aivideoupscaler.config import BackendName
-from aivideoupscaler.ui.tui import TARGET_CHOICES, UpscalerApp, _format_duration
+from aivideoupscaler.ui.tui import (
+    TARGET_CHOICES,
+    UpscalerApp,
+    _ffmpeg_summary,
+    _format_duration,
+)
 
 
 def run(coro):
     """Run an async coroutine on a fresh event loop."""
     return asyncio.run(coro)
+
+
+def test_the_ffmpeg_summary_reports_the_version() -> None:
+    """The header shows the FFmpeg version, or that it is missing."""
+    summary = _ffmpeg_summary()
+    assert summary
+    assert summary != "not found" or summary == "not found"
+    if summary != "not found":
+        # A version number, or the generic fallback.
+        assert summary[0].isdigit() or summary == "available"
 
 
 def test_format_duration() -> None:

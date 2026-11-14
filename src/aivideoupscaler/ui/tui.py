@@ -626,14 +626,16 @@ def _format_duration(seconds: float) -> str:
 
 def _ffmpeg_summary() -> str:
     """Return a short description of the FFmpeg installation."""
+    import re
+
     from ..ffmpeg_wrapper import ffmpeg_version
 
     version = ffmpeg_version()
     if not version:
         return "not found"
-    for part in version.split():
-        if part.startswith("ffmpeg") and any(char.isdigit() for char in part):
-            return part.replace("ffmpeg", "").replace("version", "").strip()
+    match = re.search(r"ffmpeg version (\S+)", version)
+    if match:
+        return match.group(1)
     return "available"
 
 
