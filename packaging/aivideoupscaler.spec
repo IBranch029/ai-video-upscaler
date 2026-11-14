@@ -80,11 +80,13 @@ binaries = []
 # Textual ships the tree-sitter highlight definitions as data files.
 datas += collect_data_files("textual", include_py_files=False, excludes=["*.pyc", "*.pyo"])
 
-# Bundle the helper executables when they are available.
+# Bundle the helper executables when they are available.  Symlinks are
+# resolved first, because PyInstaller would otherwise copy the link instead of
+# the executable it points at.
 for name in ("ffmpeg", "ffprobe", "realesrgan-ncnn-vulkan"):
     for candidate in BIN_DIR.glob(f"{name}*"):
         if candidate.is_file():
-            binaries.append((str(candidate), "bin"))
+            binaries.append((str(candidate.resolve()), "bin"))
             break
 
 # Bundle the ncnn model files when they are available.

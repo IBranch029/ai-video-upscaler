@@ -78,11 +78,13 @@ def test_doctor_runs() -> None:
 
 
 def test_the_frozen_console_is_kept_open(monkeypatch: pytest.MonkeyPatch) -> None:
-    """A frozen executable waits before the console window is closed."""
+    """A frozen executable started by double clicking waits before it exits."""
     from aivideoupscaler.ui import cli
 
     monkeypatch.setattr(cli.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(cli.sys, "argv", ["aivideoupscaler.exe"], raising=False)
     monkeypatch.delenv("AIVU_NO_PAUSE", raising=False)
+    monkeypatch.setattr(cli.sys.stdin, "isatty", lambda: True, raising=False)
     assert cli._should_pause() is True
 
 
@@ -91,7 +93,31 @@ def test_the_pause_can_be_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
     from aivideoupscaler.ui import cli
 
     monkeypatch.setattr(cli.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(cli.sys, "argv", ["aivideoupscaler.exe"], raising=False)
     monkeypatch.setenv("AIVU_NO_PAUSE", "1")
+    monkeypatch.setattr(cli.sys.stdin, "isatty", lambda: True, raising=False)
+    assert cli._should_pause() is False
+
+
+def test_a_command_never_pauses(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A command was given, so the user is running the program from a shell."""
+    from aivideoupscaler.ui import cli
+
+    monkeypatch.setattr(cli.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(cli.sys, "argv", ["aivideoupscaler.exe", "--version"], raising=False)
+    monkeypatch.delenv("AIVU_NO_PAUSE", raising=False)
+    monkeypatch.setattr(cli.sys.stdin, "isatty", lambda: True, raising=False)
+    assert cli._should_pause() is False
+
+
+def test_a_scripted_run_never_pauses(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Without a terminal on the standard input there is nothing to wait for."""
+    from aivideoupscaler.ui import cli
+
+    monkeypatch.setattr(cli.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(cli.sys, "argv", ["aivideoupscaler.exe"], raising=False)
+    monkeypatch.delenv("AIVU_NO_PAUSE", raising=False)
+    monkeypatch.setattr(cli.sys.stdin, "isatty", lambda: False, raising=False)
     assert cli._should_pause() is False
 
 

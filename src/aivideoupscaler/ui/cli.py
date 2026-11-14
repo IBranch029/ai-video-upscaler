@@ -83,10 +83,21 @@ def _should_pause() -> bool:
     explorer owns a console window that would vanish the moment the process
     exits.  Pausing before the exit keeps the window (and any message the user
     should read) on screen.
+
+    The pause is skipped when a command was given, because the user is then
+    running the program from a shell, and when the standard input is not a
+    terminal, which is the case for scripts and continuous integration.
     """
     if not getattr(sys, "frozen", False):
         return False
-    return not os.environ.get("AIVU_NO_PAUSE")
+    if os.environ.get("AIVU_NO_PAUSE"):
+        return False
+    if len(sys.argv) > 1:
+        return False
+    try:
+        return bool(sys.stdin.isatty())
+    except (AttributeError, ValueError):  # pragma: no cover - console specific
+        return False
 
 
 def _pause_before_exit() -> None:
