@@ -1,0 +1,11 @@
+﻿
+
+Count    : 321
+Average  : 
+Sum      : 388150462
+Maximum  : 
+Minimum  : 
+Property : Length
+
+
+

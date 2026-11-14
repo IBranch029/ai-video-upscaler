@@ -29,12 +29,20 @@ block_cipher = None
 # size, so it is only included when it is actually installed.
 bundle_torch = os.environ.get("AIVU_BUNDLE_TORCH", "0") == "1"
 
+# PySide6 adds roughly 350 MB to the bundle, so the standalone executable
+# ships the command line client only.  Set AIVU_BUNDLE_GUI=1 to include the
+# graphical interface as well.
+bundle_gui = os.environ.get("AIVU_BUNDLE_GUI", "0") == "1"
+
 hiddenimports = collect_submodules("aivideoupscaler")
 hiddenimports += ["PIL._tkinter_finder"]
 excludes = ["tkinter", "matplotlib", "pytest", "IPython", "notebook"]
 
 if not bundle_torch:
     excludes += ["torch", "torchvision", "torch_directml"]
+
+if not bundle_gui:
+    excludes += ["PySide6", "shiboken6"]
 
 datas = []
 binaries = []
