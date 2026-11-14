@@ -1,0 +1,12 @@
+﻿git : To https://github.com/IBranch029/ai-video-upscaler.git
+At line:1 char:35
++ cd 'c:\Users\pines\Desktop\test'; git push origin v1.1.0 2>&1 | Out-F ...
++                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...eo-upscaler.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ * [new tag]         v1.1.0 -> v1.1.0
+a5153aca6655c4015f15cc8eb744b4a57ab8c701	refs/tags/v1.0.0
+eaec2ff2d7221da6d537ba56330bbf526aa3af7a	refs/tags/v1.0.0^{}
+3df4baf0242816af8603749faa520ded79496499	refs/tags/v1.1.0
+38f8a7ce0b51e97e5ad41f4d1d75b1faa0eac53b	refs/tags/v1.1.0^{}

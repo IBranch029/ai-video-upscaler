@@ -1,8 +1,10 @@
 ﻿git : To https://github.com/IBranch029/ai-video-upscaler.git
-At line:13 char:30
-+ instead of the executable."; git push origin main 2>&1 | Out-File -En ...
-+                              ~~~~~~~~~~~~~~~~~~~~~~~~~
+At line:2 char:70
++ ... us integration are never blocked."; git push origin main 2>&1 | Out-F ...
++                                         ~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (To https://gith...eo-upscaler.git:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
-   45a3163..f48a76d  main -> main
+   f48a76d..38f8a7c  main -> main
+v1.0.0
+v1.1.0

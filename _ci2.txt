@@ -1,0 +1,3 @@
+﻿in_progress		docs: describe the refined console pause behaviour	Release	v1.1.0	push	43633434345	43s	2026-11-14T19:41:15Z
+completed	success	docs: describe the refined console pause behaviour	CI	main	push	43633317822	1m45s	2026-11-14T19:40:00Z
+completed	success	fix: keep the release workflow and the console pause in order	CI	main	push	43633076976	1m50s	2026-11-14T19:37:11Z

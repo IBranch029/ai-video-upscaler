@@ -1,0 +1,8 @@
+﻿{"conclusion":"","status":"in_progress"}
+gh : accepts at most 1 arg(s), received 3
+At line:1 char:129
++ ... relwf.txt'; gh run view 43633434345 --json jobs --jq '.jobs[] | "\(.n ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (accepts at most 1 arg(s), received 3:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

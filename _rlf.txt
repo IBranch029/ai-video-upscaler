@@ -1,0 +1,7 @@
+﻿
+Publish the release	Publish the GitHub release	´╗┐2026-11-14T19:43:09.0996318Z ##[group]Run set -euo pipefail
+Publish the release	Publish the GitHub release	2026-11-14T19:43:09.1073106Z ##[endgroup]
+Publish the release	Publish the GitHub release	2026-11-14T19:43:09.3055033Z open RELEASE_NOTES.md: no such file or directory
+Publish the release	Publish the GitHub release	2026-11-14T19:43:09.3102857Z ##[error]Process completed with exit code 1.
+
+
